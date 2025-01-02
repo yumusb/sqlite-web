@@ -1383,7 +1383,9 @@ def main():
         app.logger.removeHandler(default_handler)
 
     password = None
-    if options.prompt_password:
+    # Check if password prompt is enabled via command line or environment variable
+    prompt_password = options.prompt_password or os.environ.get('SQLITE_WEB_PROMPT_PASSWORD', 'false').lower() == 'true'
+    if prompt_password:
         if os.environ.get('SQLITE_WEB_PASSWORD'):
             password = os.environ['SQLITE_WEB_PASSWORD']
         else:
